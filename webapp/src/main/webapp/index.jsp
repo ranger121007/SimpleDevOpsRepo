@@ -3,47 +3,62 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        p {
-            text-align: center;
-            font-size: 60px;
-            margin-top: 0px;
+        body {
+            background-color: #2d2d2d;
+        }
+
+        #timedate {
+            font: small-caps lighter 43px/150% "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+            text-align: left;
+            width: 50%;
+            margin: 40px auto;
+            color: #fff;
+            border-left: 3px solid #ed1f24;
+            padding: 20px;
         }
     </style>
 </head>
-<body>
+<body onLoad="initClock()">
 
-<p id="demo"></p>
-
+<div id="timedate">
+    <a id="mon">January</a>
+    <a id="d">1</a>,
+    <a id="y">0</a><br/>
+    <a id="h">12</a> :
+    <a id="m">00</a>:
+    <a id="s">00</a>:
+    <a id="mi">000</a>
+</div>
 <script>
-    // Set the date we're counting down to
-    var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+    // START CLOCK SCRIPT
 
-    // Update the count down every 1 second
-    var x = setInterval(function() {
+    Number.prototype.pad = function (n) {
+        for (var r = this.toString(); r.length < n; r = 0 + r) ;
+        return r;
+    };
 
-        // Get today's date and time
-        var now = new Date().getTime();
+    function updateClock() {
+        var now = new Date();
+        var milli = now.getMilliseconds(),
+            sec = now.getSeconds(),
+            min = now.getMinutes(),
+            hou = now.getHours(),
+            mo = now.getMonth(),
+            dy = now.getDate(),
+            yr = now.getFullYear();
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var tags = ["mon", "d", "y", "h", "m", "s", "mi"],
+            corr = [months[mo], dy, yr, hou.pad(2), min.pad(2), sec.pad(2), milli];
+        for (var i = 0; i < tags.length; i++)
+            document.getElementById(tags[i]).firstChild.nodeValue = corr[i];
+    }
 
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
+    function initClock() {
+        updateClock();
+        window.setInterval("updateClock()", 1);
+    }
 
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Output the result in an element with id="demo"
-        document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
-
-        // If the count down is over, write some text
-        if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("demo").innerHTML = "EXPIRED";
-        }
-    }, 1000);
+    // END CLOCK SCRIPT
 </script>
-
 </body>
 </html>
