@@ -30,8 +30,8 @@
     <a id="mi">000</a>
 </div>
 <script>
-    // START CLOCK SCRIPT
-
+    // START CLOCK    SCRIPT
+    // Testing changes
     Number.prototype.pad = function (n) {
         for (var r = this.toString(); r.length < n; r = 0 + r) ;
         return r;
